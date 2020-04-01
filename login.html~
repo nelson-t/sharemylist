@@ -1,0 +1,10 @@
+<html>
+<body>
+ <div>
+    <div id="login">
+     <h1>First, log in to spotify...</h1>
+     <a href="https://accounts.spotify.com/authorize?client_id=fd4009f9f57b4ff3909bb77e0ce72a6a&redirect_uri=http://192.168.0.13:8080/player.html&scope=user-read-private%20user-read-email%20user-modify-playback-state%20user-read-currently-playing&response_type=token&state=123">
+     Log in</a>
+    </div>
+ </div>
+</html>
