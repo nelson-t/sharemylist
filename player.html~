@@ -1,34 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="player.css" media="screen" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="player.js"></script>
 </head>
 <body>
-<div class="center">
+
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'Player')">Player</button>
+  <button class="tablinks" onclick="openTab(event, 'Playlists')">Playlists</button>
+  <button class="tablinks" onclick="openTab(event, 'Admin')">Admin</button>
+</div>
+
+
+<div id="PLayer" class="tabcontent">
 <div id="div1"><h2>SIMPLE SPOTIFY CONTROL</h2></div>
-	<div class="auto" id="auto" style="display: none">
+	<div class="auto" id="myDiv" style="display: none">
 	JSON COMPLETO:
 	<p>
 	<textarea name="" id="myTextarea" cols=60 rows="5"></textarea>
 	<p>
 	</div>
 <div>	
-	Track: <button id="b1">Status</button>
-	<p>
+   Status:<button id="b1">Status</button>	on <button id="b-player">PLAYER??</button><p>
+	Track: <p>
 	<textarea name="" id="myTextarea2" cols=60 rows="2"></textarea>
 </div>
 <img id="img1" alt="Spotify Image" height="300" width="300">
 <p>
 <div class="container">
-<button id="b-prev">PREVIOUS</button>
-<button id="b-play">PLAY</button>
-<button id="b-pause"> || </button>
-<button id="b-next">NEXT-></button>
+<button id="b-prev"><-PREV</button> &nbsp
+<button id="b-play">PLAY</button>  &nbsp
+<button id="b-pause"> || </button>  &nbsp
+<button id="b-next">NEXT-></button>  &nbsp
 </div>
 <p>
-<!-- <input id="clickMe" type="button" value="Test!" onclick="alertOne();" /> -->
+<input id="testButton" type="button" value="Test!" onclick="testFunction();" />
+<p>
+<textarea name="" id="testTextarea" cols=80 rows="5">Test!</textarea>
 </div>
+
+
+<div id="Playlists" class="tabcontent">
+  <h3>Playlists</h3>
+  <p>Playlists administration here.</p> 
+</div>
+
+<div id="Admin" class="tabcontent">
+  <h3>Administration</h3>
+  <p>Administration here.</p>
+</div>
+
 </body>
 </html>
