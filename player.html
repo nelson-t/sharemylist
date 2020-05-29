@@ -1,57 +1,187 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="player.css" media="screen" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script type="text/javascript" src="player.js"></script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="player.css" media="screen" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="Player.js"></script>
+  <script type="text/javascript" src="Context.js"></script>
+  <script type="text/javascript" src="Queue.js"></script>  
+  <script type="text/javascript" src="Playlist.js"></script>
+  <script type="text/javascript" src="Util.js"></script>
+  <script type="text/javascript" src="Cookie.js"></script>
+  <script type="text/javascript" src="Store.js"></script>
+  <script type="text/javascript" src="Controller.js"></script>
+  
 </head>
 <body>
+  <div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'Player')"    id="b-tplayer"   >Player</button>
+    <button class="tablinks" onclick="openTab(event, 'Context')"   id="b-tcontext"  >Context</button>
+    <button class="tablinks" onclick="openTab(event, 'Playlists')" id="b-tplaylists">Playlists</button>
+    <button class="tablinks" onclick="openTab(event, 'Queue')"     id="b-tqueue"    >Queue</button>
+    <button class="tablinks" onclick="openTab(event, 'Utilities')" id="b-tutil"     >Utilities</button>
+  </div>
 
-<div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'Player')">Player</button>
-  <button class="tablinks" onclick="openTab(event, 'Playlists')">Playlists</button>
-  <button class="tablinks" onclick="openTab(event, 'Admin')">Admin</button>
-</div>
+  <!--TAB PLAYER -->
 
+  <div id="Player" class="tabcontent">
+    <div class="centerText">	
+      <b><span id="s-author"></span><p></b>
+      <p><b><span id="s-track" style="text-align: center"></span></b>
+      <p><b><span id="track-progress">0%</span></b>&nbsp&nbsp<span id="s-status"></span>&nbsp&nbsp[<span id="s-repeat"></span>]&nbsp&nbsp[<span id="s-shuffle"></span>]
+    </div>
+    <div class="container"><div class="div-wrap"><div class="inside-div-wrap">
+    <table style="border: 2px" >
+    <tr>
+        <td><img id="img1" alt="Spotify Image" height="300" width="300" style="cursor: pointer;"></td>
+        <td><input class="vranger" type="range" orient="vertical" min="1" max="100" value="50" id="playerVolume">  </td>
+    </tr>
+    </table>  
+    </div></div></div>
+    <br/>
+    <div class="container"> 
+      <button class="b-player" id="b-prev"><< Previous</button>&nbsp
+      <button class="b-player" id="b-play">Play ></button>&nbsp
+      <button class="b-player" id="b-pause">Pause ||</button>&nbsp
+      <button class="b-player" id="b-next">Next >></button>
+    </div>
+    <div class="centerText">
+    <span>
+    <p>
+    Playing on:<b>&nbsp<span id="s-player">* None selected *</span></b> 
+    </span>
+    </div>
+  </div>
 
-<div id="Player" class="tabcontent">
-<div id="div1"><h2>SIMPLE SPOTIFY CONTROL</h2></div>
-	<div class="auto" id="myDiv" style="display: none">
-	JSON COMPLETO:
-	<p>
-	<textarea name="" id="myTextarea" cols=60 rows="5"></textarea>
-	<p>
-	</div>
-<div>	
-   Status:<button id="b1">Status</button>	on <button id="b-player">PLAYER??</button><p>
-	Track: <p>
-	<textarea name="" id="myTextarea2" cols=60 rows="2"></textarea>
-</div>
-<img id="img1" alt="Spotify Image" height="300" width="300">
-<p>
-<div class="container">
-<button id="b-prev"><-PREV</button> &nbsp
-<button id="b-play">PLAY</button>  &nbsp
-<button id="b-pause"> || </button>  &nbsp
-<button id="b-next">NEXT-></button>  &nbsp
-</div>
-<p>
-<input id="testButton" type="button" value="Test!" onclick="testFunction();" />
-<p>
-<textarea name="" id="testTextarea" cols=80 rows="5">Test!</textarea>
-</div>
+  <!--TAB CONTEXT -->
+  
+  <div id="Context" class="tabcontent">
+    <table style="width:100%">
+      <tr><td><div><img id="img2" alt="Spotify Image" height="100" width="100" style="cursor: pointer;"></td></div>
+      <td style="width:100%">
+      <p>Type : <span id="s-context-type"></span>  
+      <p>Name : <b><span id="s-context-name"></span></b></td></tr>
+    </table>
+    
+    <div id="listTable">
+    </div>
+   
+  </div>
 
+  <!--TAB PLAYLISTS -->
 
-<div id="Playlists" class="tabcontent">
-  <h3>Playlists</h3>
-  <p>Playlists administration here.</p> 
-</div>
+  <div id="Playlists" class="tabcontent">
+  <div class="b-opc">
+     <button class="b-player2" onClick="document.getElementById('b-findDuplicateTracks').disabled = false;Playlist.findArtists();" 
+     id="b-getAllPlaylists">Update List</button>
+     <button class="b-player2" onClick="disabled = true" id="b-findDuplicateTracks">Find Duplicates</button><p>
+     <select id="s-playlists"> <option value="-999" label="- PLAYLIST -"></option></select>
+     <select id="s-artists"  ></select>
+  </div>
+  <p>
+  <div id="playlistsTable">
+  </div>
+  </div>
+  
+  <!--TAB PLAYING QUEUE -->
 
-<div id="Admin" class="tabcontent">
-  <h3>Administration</h3>
-  <p>Administration here.</p>
-</div>
+  <div id="Queue" class="tabcontent">
+   <div class="b-opc">
+   
+      <input type="text" placeholder="Remote queue code" id="i-loadSharedTracks">
+      <button class="b-player2" id="b-loadSharedTracks" >Load</button>
+      <button class="b-player2" style="display:compact" id="b-clearCode">Clear</button>  
+      <hr>
+      <button class="b-player2" id="b-shareTracks">Share Local >></button>&nbsp&nbsp
+      <b><span id='s-sharing'>N/A</span></b>&nbsp&nbsp&nbsp<span id='t-sharingStatus'></span> 
+      <hr>
+      <div class="centerText">    
+        <b>My Spotify Queue</b><p>
+        <button class="b-player2" id="b-queueTracks" title="Add all the awaiting tracks to Spotify queue">Send Tracks</button> 
+        <button class="b-player2" id="b-playQueue" title="Will empty Spotify queue and restarts with the first awaiting track">Restart</button> 
+        <button class="b-player2" id="b-clearSpotify" title="Tries to empty the Spotify queue!">Clear</button>
+      </div>
+    
+   </div>
+      <div>      
+      <p><table id="myQueueTable" class="spTable" style="width:100%">
+         <tr><th style="display:none">Code</th><th style="width:60%">Tracks</th><th>Status</th><th>Progress %</th>
+         <th style="display:none">Type</th><th style="display:none">Playlist URI</th><th style="display:none">Offset</th><th style="display:none">mSeconds</th></tr>
+      </table>
+      <p>
+      <button class="b-player2" id="b-cancelQueue">Remove All Awaiting Tracks</button>
+      </div>
+  <p>
+  <div id="playlistsTable">
+  </div>
+  </div>
+  
+  <!--TAB UTILITIES -->
+
+  <div id="Utilities" class="tabcontent">
+    <div class="auto" id="devicesTableDiv">
+    </div>
+    <p> 
+    <input class="b-player2"  id="b-updateDevices" type="button" value="Update List"/>
+    <hr>
+    <h3>Device Info JSON</h3>
+    <input id="devicesJsonButton" type="button" value="Show/Hide JSON"  />
+    <p><div class="auto" id="devicesDiv" style="display:none">
+    DEVICES JSON (api.spotify.com/v1/me/player/devices)
+    <p><textarea readonly class="i-textarea" id="devicesJsonTextarea" rows="10"></textarea>
+    </div>
+    <hr>
+    <h3>Player Info  JSON</h3>
+    <p><input id="playerJsonButton" type="button" value="Show/Hide JSON"  />
+    <p><div class="auto" id="playerJsonDiv" style="display: none">
+	   PLAYER JSON (api.spotify.com/v1/me/player)
+	   <p><textarea readonly class="i-textarea" id="playerJsonTextarea"></textarea>
+	 </div>
+    <p>
+    <hr>
+    <h3>Playlist Info JSON</h3>
+    <p><input id="playlistJsonButton" type="button" value="Show/Hide JSON"  />
+  	 <div class="auto" id="playlistJsonDiv" style="display: none">
+	   PLAYER JSON (api.spotify.com/v1/playlists/{playlist_id})
+	   <p><textarea readonly class="i-textarea" id="playlistJsonTextarea" ></textarea>
+	 </div>
+    <p>
+    <hr>
+    <h3>Track Info JSON</h3>
+    <p><input id="trackJsonButton" type="button" value="Show/Hide JSON"  />
+  	 <div class="auto" id="trackJsonDiv" style="display: none">
+	   PLAYER JSON (api.spotify.com/v1/player)
+	   <p><textarea readonly class="i-textarea" id="trackJsonTextarea" ></textarea>
+	 </div>	 
+
+   <hr>
+    <h3>Artist's Top Tracks Info JSON</h3>
+    <p><input id="artistJsonButton" type="button" value="Show/Hide JSON"  />
+  	 <div class="auto" id="artistJsonDiv" style="display: none">
+	   PLAYER JSON (api.spotify.com/v1/artists/XXXXXX/top-tracks?country=us)
+	   <p><textarea readonly class="i-textarea" id="artistJsonTextarea"  ></textarea>
+	 </div>	 
+
+    <hr>
+    <h3>Playlists Info JSON</h3>
+    <p><input id="playlistsJsonButton" type="button" value="Show/Hide JSON" />
+  	 <div class="auto" id="playlistsJsonDiv" style="display: none">
+	   PLAYLISTS JSON (api.spotify.com/v1/me/playlists)
+	   <p><textarea readonly class="i-textarea" id="playlistsJsonTextarea" ></textarea>
+	 </div>	 
+  </div>
+  
+  <div id="footer">
+   <p><p>
+   njterraz@gmail.com
+   </div>
 
 </body>
+
 </html>
