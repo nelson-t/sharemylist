@@ -18,8 +18,10 @@ class Player{
          headers: Player.getHeaders() 
       }).done(function (data, textStatus, jqXHR) {
          let trackInfo=data;
-         tbl.rows[row].cells[col].innerHTML=trackInfo.name+" ("+trackInfo.album.artists[0].name+")";
-         console.log("getATrackName = "+row+" , "+col+ " = "+tbl.rows[row].cells[col].innerHTML);
+         if(tbl.rows[row].cells[col]!=null){         
+            tbl.rows[row].cells[col].innerHTML=trackInfo.name+" ("+trackInfo.album.artists[0].name+")";
+            console.log("getATrackName = "+row+" , "+col+ " = "+tbl.rows[row].cells[col].innerHTML);
+         }
       }).fail(function (jqXHR, textStatus, htttpErrorThrown) {
          console.log(textStatus+" detected : "+jqXHR.responseText); 
       });

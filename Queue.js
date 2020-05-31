@@ -25,11 +25,6 @@ class Queue{
       xhr.send();
    }
    
-   static restartPlayingQueue = async () =>{
-      const clearQ = await Queue.clearSpotifyQueue(0);
-      Queue.playQueueTracks("Restart");      
-   }
-
     static playQueueTracks(opt){
       if(theDevice==null) {
          alert("Select a device!");
@@ -39,17 +34,19 @@ class Queue{
       let tbl  = document.getElementById("myQueueTable");
       if (tbl.rows.length<2) //At least one track to play  
          return false; 
+     
       if (tbl.rows.length===2 && tbl.rows[1].cells[Queue.playingStatusCell].innerHTML==="Playing") //At least one track to play  
          return false; 
          
-      clearInterval(theLoop);
-
-      var nothingNewToQueue=true;
+      let nothingNewToQueue=true;
       for(let i=1; i<tbl.rows.length; i++)
          if(tbl.rows[i].cells[Queue.playingStatusCell].innerHTML==="Awaiting")
             nothingNewToQueue=false;
+  
       if (nothingNewToQueue) { return; }
-      
+ 
+      clearInterval(theLoop);
+     
       let aNewTrackPlaying=false; 
       //Row 0 are headings
       if (opt==="restart") { 
@@ -241,8 +238,7 @@ class Queue{
          Store.updateJSON(Cookie.getCookie('queue'));
          console.log("updateQueueTable: updateJSON with cookie: "+Cookie.getCookie('queue'));
       }
-      ///////////////////////////
-   
+  
 }   
    
    static disableEnableButtons(){
@@ -271,10 +267,29 @@ class Queue{
       return false;
    }    
    
-   static clearSpotifyQueue(init){ //Recursive
+   static restartPlayingQueue = async () =>{
+      let tbl  = document.getElementById("myQueueTable");
+      let nothingNewToQueue=true;
+      for(let i=1; i<tbl.rows.length; i++)
+         if(tbl.rows[i].cells[Queue.playingStatusCell].innerHTML==="Awaiting")
+            nothingNewToQueue=false;      
+      if (nothingNewToQueue) { return; }
+
+      Queue.clearSpotifyQueue(0, true);
+      
+      //Queue.playQueueTracks("Restart");      
+   }   
+   
+   static clearSpotifyQueue(init, restart){ //Recursive
       let i=init;
+      let r=restart;
       let id="0ICWP0NnWaJUCgp6EvgNmT"; //Mission Imposible Track...can be changed
+      //let id="6mFkJmJqdDVQ1REhVfGgd1"; //Pink Floy
+      
       let tId="";
+      let fDelay=1000;
+      if(thePlayer.device.name.toUpperCase().includes("LIBRE"))
+         fDelay=2000;
     
       if(i>=20){setLoops(); return false;} //Max number of tracks in the que that will be removed, avoid infinite loop
    
@@ -283,7 +298,7 @@ class Queue{
          $.ajax({
             url: 'https://api.spotify.com/v1/me/player/queue?uri=spotify:track:'+id , method:'POST', 
             headers: Player.getHeaders()  
-         }).done(setTimeout(function(){Queue.clearSpotifyQueue(i+1);},1500));
+         }).done(setTimeout(function(){Queue.clearSpotifyQueue(i+1, r);},fDelay));
       } else {  
          $.ajax({ 
             url: 'https://api.spotify.com/v1/me/player/currently-playing', method: 'GET', headers: Player.getHeaders()
@@ -293,13 +308,24 @@ class Queue{
             if(tId===id) {
                console.log("clearSpotifyQueue: A match. Exiting");
                document.getElementById("b-clearSpotify").innerHTML="Clear";
-               Player.next(0);
-               setLoops();
+ 
+               if(r) {
+                  Queue.playQueueTracks("Restart");
+                  setTimeout(()=> { Player.next(0); }, 1000);
+                  setTimeout(()=> { setLoops(); }, 2000);
+                  
+               }  else {           
+                  Player.next(0);
+                  setLoops();
+               }
+               
+
+
                return true;
             } else {
                $.ajax({
                   url: 'https://api.spotify.com/v1/me/player/next', method:'POST', headers: Player.getHeaders()  
-               }).done(setTimeout(function(){Queue.clearSpotifyQueue(i+1);},1000));
+               }).done(setTimeout(function(){Queue.clearSpotifyQueue(i+1,r );},fDelay));
                document.getElementById("b-clearSpotify").innerHTML="Cleared "+i;
             }
          });

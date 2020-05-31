@@ -40,16 +40,8 @@ class Playlist {
          opc.remove(i);
 
       for (var i=0; i<allPlaylists.items.length; i++) {
-         
-         
-         
-         
-//         var theUrl='Player.playFromList("playlist", "'+allPlaylists.items[i].uri+'", "000", 0)';
-
+ 
          var theUrl='Player.playFromList("player", "'+allPlaylists.items[i].uri+'", "000", 0, true)';
-
-
-
 
          theTable+="<tr id='row"+allPlaylists.items[i].id+"'>"+
                    "  <td style='display: none'>playlist</td>"+
@@ -106,7 +98,7 @@ class Playlist {
                      "<td style='display:none'>"+data.tracks.items[j].track.id+"</td>"+
                      "<td><a href='javascript:"+theUrl+"'>"+data.tracks.items[j].track.name+"</td>"+
                      "<td>"+theArtistURL+"</td>"+
-                     (data.public ? "<td><b><a href='javascript:"+theQUrl+"'>Add</b></td>" : "<td>-</td>")+
+                     "<td><b><a href='javascript:"+theQUrl+"'>Add</b></td>"+   //(dta.public ? "<td><b><a href='javascript:"+theQUrl+"'>Add</b></td>" : "<td>-</td>")+
                      "<td style='display: none'>-</td>"+
                   "</tr>");
                }

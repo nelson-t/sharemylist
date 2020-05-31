@@ -1,7 +1,4 @@
 class Store{
-   
-   //static jsonBoxId="http://192.168.0.14:3000/box_9baaff0e1b4c9d89a2f3";
-   
    static jsonBoxId="http://18.231.186.57:3000/box_c297ca22db513a3985fc";
    static recId="X";
    static shareCode="N/A"
@@ -91,6 +88,25 @@ class Store{
        else 
          Store.storeJSON(Cookie.getCookie("queue"));
    }   
+   
+   static clearSharedJSON(){
+      if(document.getElementById("i-loadSharedTracks").value==="")
+            return ;
+      
+      document.getElementById("i-loadSharedTracks").value=""
+      Cookie.setCookie("remoteQueueCode", "", 2);
+ 
+      let tbl  = document.getElementById("myQueueTable");
+      if (tbl.rows.length>1) {
+         let ms=tbl.rows[1].cells[Queue.mSecondsCell].innerHTML;
+         let uris="[";
+         uris+='"spotify:track:'+tbl.rows[1].cells[Queue.trackIdCell].innerHTML+'"';
+         uris+="]";
+         Queue.deleteAllTableLines() ;       
+         Player.playTracks(uris, ms);
+  
+      }
+   }
     
    static getSharedJSON(){ // get the JSON by the queue's ID
    
@@ -106,7 +122,9 @@ class Store{
          document.getElementById("b-tutil").click();
          return;         
       }
-      
+      ///      
+      Cookie.setCookie("remoteQueueCode", qId, 1);
+
       $.ajax({
          url: Store.jsonBoxId+"?q=code:"+qId,
          method: 'GET',

@@ -67,6 +67,8 @@ class Cookie{
       Store.shareCode=Cookie.getCookie("qcode");
       if (Store.shareCode==="") 
          Store.shareCode="N/A"
+      // Gets also the remote queue code
+      document.getElementById("i-loadSharedTracks").value=Cookie.getCookie("remoteQueueCode");
    }    
    
    static setCookie(cname, cvalue, exhours) {

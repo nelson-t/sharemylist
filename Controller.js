@@ -7,7 +7,6 @@ var updateList       =true;
 var currentTrack     ="*";  
 var contextUri       ="";
 var theLoop          =null;
-// var theQLoop         =null;
 var thePlaylistImage =null;
 var thePlayer        =null; 
 var theTrack         =null;
@@ -50,12 +49,12 @@ $(document).ready(function(){
 
    $("#b-tutil").click(function(){
       Util.getDevices();
-      devicesDiv.style.display = "none";
-      playlistJsonDiv.style.display = "none"
-      playlistsJsonDiv.style.display = "none"
-      artistJsonDiv.style.display = "none"
-      playerJsonDiv.style.display = "none"
-      trackJsonDiv.style.display = "none"   
+      devicesDiv.style.display         = "none";
+      playlistJsonDiv.style.display    = "none"
+      playlistsJsonDiv.style.display   = "none"
+      artistJsonDiv.style.display      = "none"
+      playerJsonDiv.style.display      = "none"
+      trackJsonDiv.style.display       = "none"   
    });
 
    $("#b-tplaylists").click(function(){
@@ -70,7 +69,7 @@ $(document).ready(function(){
    });
    
    $("#b-clearSpotify").click(function(){
-      Queue.clearSpotifyQueue(0);
+      Queue.clearSpotifyQueue(0, false);
    });
    
    $("#b-cancelQueue").click(function(){
@@ -111,7 +110,7 @@ $(document).ready(function(){
    });
       
    $("#b-clearCode").click(function(){
-      document.getElementById("i-loadSharedTracks").value="";
+      Store.clearSharedJSON();
    });
    
    $("#devicesJsonButton").click(function(){
